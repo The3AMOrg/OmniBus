@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OmniBus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="map"></div>
+    <div class="top-layer">
+        <div class="top-widget">
+            <div class="widget-header">
+                <p class="greeting" id="greetingText">Good Morning,</p>
+                <span class="live-time" id="currentTime">--:--</span>
+            </div>
+            
+            <h1 class="username">ABHISHEK</h1>
+            <p class="custom-loc-text">Custom Location:</p>
+            <div class="pill-container">
+                <div class="dark-pill"></div>
+                <div class="dark-pill"></div>
+            </div>
+        </div>
+        
+        <div class="status-badges">
+            <div class="badge sync">
+                <span class="material-symbols-outlined icon">share</span>
+                <div>
+                    <strong>IN SYNC</strong><br><span>updated 1 min ago</span>
+                </div>
+            </div>
+            <div class="badge buses">
+                <span class="material-symbols-outlined icon">directions_bus</span>
+                <div>
+                    <strong>6 BUSES</strong><br><span>all buses operational</span>
+                </div>
+            </div>
+            <div class="badge late">
+                <span class="material-symbols-outlined icon">warning</span>
+                <div>
+                    <strong>BIT LATE</strong><br><span>moderate traffic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="eta-card">
+        <div class="card-header">
+            <button class="action-btn"><span class="material-symbols-outlined">map</span> Map Only</button>
+            <button class="action-btn"><span class="material-symbols-outlined">alarm</span> Set Alarm</button>
+            <button class="action-btn"><span class="material-symbols-outlined">call</span> Call Bus</button>
+        </div>
+        
+        <h2 class="eta-title">ETA</h2>
+        <p class="route-info"><span class="highlight-green">Tracking:</span> <span class="highlight-red">Bus 1 :</span> Basista To Gauhati University Via Lokhra</p>
+        
+        <div class="timeline">
+            <div class="timeline-graphics">
+                <span class="material-symbols-outlined">home</span>
+                <div class="vertical-line"></div>
+                <span class="material-symbols-outlined">directions_run</span>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-step">
+                    <h3>Lokhra, Guwahati, Assam</h3>
+                </div>
+                <div class="timeline-step current">
+                    <h2 class="time">23 mins</h2>
+                    <p class="sub-text">No Rush, you have enough time!</p>
+                </div>
+            </div>
+        </div>
+        <p class="current-location-text"><span class="highlight-red">Bus 1 currently at Basistha</span><br><span class="light-text">Balighata Chariali, Assam 781381</span></p>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active">
+            <span class="material-symbols-outlined">grid_view</span> 
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-item">
+            <span class="material-symbols-outlined">directions_bus</span> 
+            <span class="nav-text">Bus</span>
+        </button>
+        <button class="nav-item">
+            <span class="material-symbols-outlined">alarm</span> 
+            <span class="nav-text">Alarm</span>
+        </button>
+        <button class="nav-item">
+            <span class="material-symbols-outlined">account_circle</span> 
+            <span class="nav-text">Profile</span>
+        </button>
+    </nav>
+
+    <!-- NEXT PAGE OF ROUTE -->
+    <div class="route-sheet" id="routeSheet">
+        <div class="drag-handle" id="closeSheetBtn"></div>
+        
+        <div class="route-list">
+            
+            <div class="route-card">
+                <div class="route-header" onclick="toggleRoute(this)">
+                    <div class="route-title-row">
+                        <span class="material-symbols-outlined bus-icon">directions_bus</span>
+                        <div class="route-name">
+                            <h2>ROUTE 1</h2>
+                            <p><span class="highlight-green">HIGH COURT</span> -> DHARAPUR</p>
+                        </div>
+                    </div>
+                    <div class="bus-list-status">
+                        <p>Bus No. 1<br>Bus No. 2<br>Bus No. 3</p>
+                        <span class="material-symbols-outlined expand-icon">expand_more</span>
+                    </div>
+                </div>
+                <div class="route-details"></div>
+            </div>
+
+            <div class="route-card">
+                <div class="route-header" onclick="toggleRoute(this)">
+                    <div class="route-title-row">
+                        <span class="material-symbols-outlined bus-icon">directions_bus</span>
+                        <div class="route-name">
+                            <h2>ROUTE 1</h2>
+                            <p><span class="highlight-green">HIGH COURT</span> -> DHARAPUR</p>
+                        </div>
+                    </div>
+                    <div class="bus-list-status">
+                        <p>Bus No. 1<br>Bus No. 2<br>Bus No. 3</p>
+                        <span class="material-symbols-outlined expand-icon">expand_more</span>
+                    </div>
+                </div>
+                
+                <div class="route-details">
+                    <hr class="card-divider">
+                    
+                    <div class="active-buses-scroll">
+                        <div class="bus-chip active"><span class="material-symbols-outlined">directions_bus</span><div><small>BUS NO. 1</small><br><strong>PANBAZAR</strong></div></div>
+                        <div class="bus-chip warning"><span class="material-symbols-outlined">directions_bus</span><div><small>BUS NO. 2</small><br><strong>NAB GATE</strong></div></div>
+                        <div class="bus-chip active"><span class="material-symbols-outlined">directions_bus</span><div><small>BUS NO. 3</small><br><strong>KAMAKHYA</strong></div></div>
+                    </div>
+
+                    <div class="stop-timeline">
+                        <div class="stop-item"><div class="stop-node origin"></div><div class="stop-text"><h4>HIGH COURT</h4><p>Origin, First stop</p></div></div>
+                        <div class="stop-line"></div>
+                        <div class="stop-item"><div class="stop-node empty"></div><div class="stop-text"><p class="mid-stop">Panbazar - Fancy Bazar</p></div></div>
+                        <div class="stop-line"></div>
+                        <div class="stop-item"><div class="stop-node empty"></div><div class="stop-text"><p class="mid-stop">Kamakhya Gate - Maligaon</p></div></div>
+                        <div class="stop-line"></div>
+                        <div class="stop-item"><div class="stop-node destination"></div><div class="stop-text"><h4>DHARAPUR</h4><p>Terminus, Last stop</p></div></div>
+                    </div>
+
+                    <div class="sheet-actions">
+                        <button class="sheet-btn"><span class="material-symbols-outlined">call</span> Call Bus</button>
+                        <button class="sheet-btn"><span class="material-symbols-outlined">alarm</span> Set Alarm</button>
+                        <button class="sheet-btn primary" onclick="closeSheet()"><span class="material-symbols-outlined">map</span> Open Map</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
